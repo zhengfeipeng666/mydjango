@@ -1,0 +1,97 @@
+{% extends 'first_page.html' %}
+
+{% block header %}
+    <!--环境搜索栏-->
+    <div class="page-header">
+        <form class="navbar-form" method="POST" action="/functional_test/get_modules/">
+            <div class="form-group">
+                <input id="ipt2" name="modules_name" type="text" placeholder="模块名" class="form-control"
+                       value={{ modules_name }}>
+                <select id="selectproject" name="project_name" class="form-control">
+                    <option value="0" class="select">项目名</option>
+                    {% for project in project_list %}
+                        <option value="{{ project.id }}">{{ project.project_name}}</option>
+                    {% endfor %}
+                </select>
+{#                <input id="ipt4" name="Developer" type="text" placeholder="开发人员" class="form-control" value="Developer">#}
+                <select id="select1" name='select' class="form-control">
+                    <option value="2" class="select">状态</option>
+                    <option value="1" class="select">生效中</option>
+                    <option value="0" class="select">已禁用</option>
+                </select>
+            </div>
+            <button id="btn4" type="submit" class="btn layui-btn">搜索</button>
+            {% csrf_token %}
+        </form>
+    </div>
+    <!--警告框-->
+    <div id="myAlert" class="alert alert-warning" style="display: none">
+        <strong>警告！</strong>编辑时只能勾选一条。
+    </div>
+    <div id="myAlert1" class="alert alert-warning" style="display: none">
+        <strong>警告！</strong>删除时一定要勾选一条。
+    </div>
+    <!--按钮-->
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group">
+        </div>
+    </div>
+{% endblock %}
+
+{% block contents %}
+    <div>
+        <div>
+            <table id="table" class="table table-striped">
+                <tr>
+                    <th><input type="checkbox" id="allcheck" onclick='checkAll("allcheck","choice")'/></th>
+                    <th>id</th>
+                    <th>模块名</th>
+                    <th>项目名</th>
+                    <th>测试人员</th>
+                    <th>开发人员</th>
+                    <th>模块描述</th>
+                    <th>状态</th>
+                </tr>
+                <tbody>
+                {% for item in obj_list %}
+                    <tr>
+                        <td id="che1"><input type="checkbox" name="choice" class="checknum"
+                                             onclick='setAll("allcheck","checkbox","checknum")'/></td>
+                        <td>{{ item.0.id }}</td>
+                        <td>{{ item.0.Modules_name }}</td>
+                        <td>{{ item.0.Project.project_name }}</td>
+                        <td>{{ item.1 }}</td>
+                        <td>{{ item.0.Developer }}</td>
+                        <td>{{ item.0.Modules_desc }}</td>
+                        {% if item.0.status %}
+                            <td><span class="choosespan label label-success">生效中</span>
+                            </td>
+                        {% else %}
+                            <td><span class="choosespan label label-danger">已禁用</span>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {{ page_info.pager|safe }}
+                </ul>
+            </nav>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+    function search(){
+    var elementsStatus="#select1 option";
+    var valueStatus="{{ select }}";
+    get_option(elementsStatus,valueStatus);
+    var elementsProject="#selectproject option";
+    var selectproject="{{ selectproject }}";
+    get_option(elementsProject,selectproject);
+    }
+
+{% endblock %}

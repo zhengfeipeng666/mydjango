@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/css/commons.css"/>
+    <link rel="stylesheet" href="/static/css/layui.css">
+{#    <link rel="stylesheet" href="/static/css/style.css">#}
+    {% block css %}
+
+    {% endblock %}
+    <script src="/static/js/js/pageDeal.js"></script>
+    <script src="/static/js/jquery-1.6.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="pg-header">
+    <div class="logo left">今日买买</div>
+    <div class="avatar right" style="position: relative">
+        <div class="user-info">
+        </div>
+    </div>
+    <div class="rmenus right">
+        <a><i class="fa fa-commenting-o" aria-hidden="true"></i> 消息</a>
+        <a  style="color: red;font-size: 20px"><i class="fa fa-commenting-o" aria-hidden="true"></i> {{ Username }}</a>
+        <a href="{% url 'logout' %}"> 退出</a>
+    </div>
+</div>
+
+<div class="pg-body">
+    <div class="menus">
+
+        <dl>
+            <dt><a href="#">功能测试</a></dt>
+            <dd>
+                <ul class="fa fa-futbol-o" aria-hidden="true">
+                    <li><a href="/project.html/">项目</a></li>
+                    <li><a href="/functional_test/get_modules/">模块</a></li>
+                    <li><a href="#">测试用例集</a></li>
+                    <li><a href="#">测试用例库</a></li>
+                    <li><a href="#">测试任务</a></li>
+                </ul>
+            </dd>
+            <dt><a href="#">接口测试</a></dt>
+            <dd>
+                <ul>
+                    <li><a href="#">A</a></li>
+                    <li><a href="#">B</a></li>
+                    <li><a href="#">C</a></li>
+                    <li><a href="#">D</a></li>
+                </ul>
+            </dd>
+            <dt><a href="#">性能测试</a></dt>
+            <dd>
+                <ul>
+                    <li><a href="#">性能1</a></li>
+                    <li><a href="#">性能2</a></li>
+                    <li><a href="#">性能3</a></li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <div class="content">
+        {% block header %}
+
+        {% endblock %}
+
+        {% block contents %}
+
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>
+
+<script src="/static/js/jquery-1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+    {% block js %}{% endblock %}
+    $(document).ready(function () {
+        $("dd").hide();
+        $("dt a").click(function () {
+            $(this).parent().toggleClass("bg");
+            $(this).parent().prevAll("dt").removeClass("bg")
+            $(this).parent().nextAll("dt").removeClass("bg")
+            $(this).parent().next().slideToggle();
+            $(this).parent().prevAll("dd").slideUp("slow");
+            $(this).parent().next().nextAll("dd").slideUp("slow");
+            return false;
+        });
+    });
+</script>
+
+
+
+
+
